@@ -1,0 +1,12 @@
+Index: linux-4.4.60-qsdk-10fd7d14853b7020b804acae690c8acec5d954ce/include/linux/qcom_scm.h
+===================================================================
+--- linux-4.4.60-qsdk-10fd7d14853b7020b804acae690c8acec5d954ce.orig/include/linux/qcom_scm.h
++++ linux-4.4.60-qsdk-10fd7d14853b7020b804acae690c8acec5d954ce/include/linux/qcom_scm.h
+@@ -14,6 +14,7 @@
+ #define __QCOM_SCM_H
+
+ #include <linux/scatterlist.h>
++#include <linux/device.h>
+
+ #define QCOM_KERNEL_AUTH_CMD		0x15
+ #define QCOM_SCM_PAS_AUTH_DEBUG_RESET_CMD	0x14

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+. /lib/functions/uci-defaults.sh
+
+board_config_update
+
+board=$(board_name)
+
+case "$board" in
+sercomm,wallaby|\
+cig,wf188n|\
+cig,wf194c)
+	ucidef_set_led_netdev "wan" "WAN" "green:wan" "br-wan" "tx rx link"
+	ucidef_set_led_netdev "lan" "LAN" "green:lan" "br-lan" "tx rx link"
+	;;
+esac
+
+case "$board" in
+cig,wf188n|\
+edgecore,eap101|\
+edgecore,eap102)
+        ucidef_set_led_wlan "wlan5g" "WLAN5G" "green:wifi5" "phy0tx"
+        ucidef_set_led_wlan "wlan2g" "WLAN2G" "green:wifi2" "phy1tx"
+	;;
+esac
+
+board_config_flush
+
+exit 0
