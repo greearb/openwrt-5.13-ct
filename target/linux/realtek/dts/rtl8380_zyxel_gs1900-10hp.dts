@@ -55,29 +55,17 @@
 		port@24 {
 			reg = <24>;
 			label = "lan9";
-			phy-mode = "rgmii-id";
-			phy-handle = <&phy24>;
+			phy-mode = "1000base-x";
+			managed = "in-band-status";
 			sfp = <&sfp0>;
-
-			fixed-link {
-				speed = <1000>;
-				full-duplex;
-				pause;
-			};
 		};
 
 		port@26 {
 			reg = <26>;
 			label = "lan10";
-			phy-mode = "rgmii-id";
-			phy-handle = <&phy26>;
+			phy-mode = "1000base-x";
+			managed = "in-band-status";
 			sfp = <&sfp1>;
-
-			fixed-link {
-				speed = <1000>;
-				full-duplex;
-				pause;
-			};
 		};
 	};
 };

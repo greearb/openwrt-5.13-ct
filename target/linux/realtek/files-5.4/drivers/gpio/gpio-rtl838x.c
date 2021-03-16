@@ -348,6 +348,9 @@ static int rtl838x_gpio_probe(struct platform_device *pdev)
 	case 0x8391:
 		pr_debug("Found RTL8391 GPIO\n");
 		break;
+	case 0x8392:
+		pr_debug("Found RTL8392 GPIO\n");
+		break;
 	case 0x8393:
 		pr_debug("Found RTL8393 GPIO\n");
 		break;

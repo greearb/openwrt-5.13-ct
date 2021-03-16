@@ -1,0 +1,40 @@
+Index: linux-5.4.111/drivers/net/dsa/rtl83xx/common.c
+===================================================================
+--- linux-5.4.111.orig/drivers/net/dsa/rtl83xx/common.c
++++ linux-5.4.111/drivers/net/dsa/rtl83xx/common.c
+@@ -687,6 +687,17 @@ static int __init rtl83xx_sw_probe(struc
+		rtl838x_dbgfs_init(priv);
+	}
+
++	if (of_machine_is_compatible("edgecore,ecs4100-12ph")) {
++		sw_w32(0x000000FF, 0x110);
++		sw_w32(0x00000000, 0x114);
++		sw_w32(0x00000000, 0x118);
++		sw_w32(0x000f0000, 0x11c);
++		sw_w32(0x00000000, 0x120);
++		sw_w32(0x000f0000, 0x124);
++		sw_w32(0x3DEA, 0xec);
++		sw_w32(0x707568, 0xe4);
++	}
++
+	return err;
+ }
+
+Index: linux-5.4.111/drivers/net/phy/rtl83xx-phy.c
+===================================================================
+--- linux-5.4.111.orig/drivers/net/phy/rtl83xx-phy.c
++++ linux-5.4.111/drivers/net/phy/rtl83xx-phy.c
+@@ -1439,6 +1439,14 @@ static int rtl8380_configure_rtl8214fc(s
+		write_phy(mac + i, 0xfff, 0x1e, 0x0000);
+	}
+
++	if (of_machine_is_compatible("edgecore,ecs4100-12ph")) {
++		printk("setting edgecore specific SFP modes\n");
++		rtl8380_rtl8214fc_media_set(mac + 0, 0);
++		rtl8380_rtl8214fc_media_set(mac + 1, 0);
++		rtl8380_rtl8214fc_media_set(mac + 2, 1);
++		rtl8380_rtl8214fc_media_set(mac + 3, 1);
++	}
++
+	return 0;
+ }

@@ -118,4 +118,13 @@ define Device/zyxel_gs1900-8hp-v2
 endef
 TARGET_DEVICES += zyxel_gs1900-8hp-v2
 
+define Device/edgecore_ecs4100-12ph
+  SOC := rtl8392
+  IMAGE_SIZE := 14336k
+  DEVICE_VENDOR := Edgecore
+  DEVICE_MODEL := ECS4100-12PH
+  DEVICE_PACKAGES += lua-rs232
+endef
+TARGET_DEVICES += edgecore_ecs4100-12ph
+
 $(eval $(call BuildImage))

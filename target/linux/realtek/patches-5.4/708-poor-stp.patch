@@ -1,0 +1,15 @@
+Index: linux-5.4.102/net/bridge/br_fdb.c
+===================================================================
+--- linux-5.4.102.orig/net/bridge/br_fdb.c
++++ linux-5.4.102/net/bridge/br_fdb.c
+@@ -573,9 +573,9 @@ void br_fdb_update(struct net_bridge *br
+	if (likely(fdb)) {
+		/* attempt to update an entry for a local interface */
+		if (unlikely(fdb->is_local)) {
+-			if (net_ratelimit())
+-				br_warn(br, "received packet on %s with own address as source address (addr:%pM, vlan:%u)\n",
++			br_warn(br, "received packet on %s with own address as source address (addr:%pM, vlan:%u) shutting port down\n",
+					source->dev->name, addr, vid);
++				br_set_state(source, BR_STATE_BLOCKING);
+		} else {
+			unsigned long now = jiffies;
