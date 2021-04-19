@@ -3,6 +3,8 @@
 
 START=96
 
+extra_command "turnoff" "Turn all leds off"
+
 load_led() {
 	local name
 	local sysfs
@@ -122,7 +124,18 @@ load_led() {
 	}
 }
 
+turnoff() {
+	for led in `ls /sys/class/leds/`; do
+		echo none > /sys/class/leds/$led/trigger
+		echo 0 > /sys/class/leds/$led/brightness
+	done
+}
+
 start() {
+	[ "$(uci get system.@system[-1].leds_off)" -eq 1 ] && {
+		turnoff
+		exit 0
+	}
 	[ -e /sys/class/leds/ ] && {
 		[ -s /var/run/led.state ] && {
 			local led trigger brightness
@@ -138,5 +151,7 @@ start() {
 
 		config_load system
 		config_foreach load_led led
+		. /etc/diag.sh
+		set_state done
 	}
 }
