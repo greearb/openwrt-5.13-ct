@@ -157,6 +157,8 @@ nand_upgrade_prepare_ubi() {
 	local kern_ubivol="$( nand_find_volume $ubidev $CI_KERNPART )"
 	local root_ubivol="$( nand_find_volume $ubidev $CI_ROOTPART )"
 	local data_ubivol="$( nand_find_volume $ubidev rootfs_data )"
+	local cert_ubivol="$( nand_find_volume $ubidev certificates )"
+	local cert_mtd="$(find_mtd_index certificates)"
 
 	local ubiblk ubiblkvol
 	for ubiblk in /dev/ubiblock*_? ; do
@@ -192,6 +194,13 @@ nand_upgrade_prepare_ubi() {
 		fi
 		if ! ubimkvol /dev/$ubidev -N $CI_ROOTPART $rootfs_size_param; then
 			echo "cannot create rootfs volume"
+			return 1;
+		fi
+	fi
+
+	if [ -z "$cert_ubivol" -a ! "$cert_mtd" ]; then
+		if ! ubimkvol /dev/$ubidev -N certificates -s 2MiB; then
+			echo "cannot create certificates volume"
 			return 1;
 		fi
 	fi

@@ -176,10 +176,14 @@
 				reg = <0x100000 0x100000>;
 				read-only;
 			};
-			partition@b260000 {
+			partition@200000 {
 				label = "firmware";
-				reg = <0x200000 0xe00000>;
+				reg = <0x200000 0xdf0000>;
 				compatible = "openwrt,uimage", "denx,uimage";
+			};
+			partition@ff0000 {
+				label = "certificates";
+				reg = <0xff0000 0x10000>;
 			};
 		};
 	};
