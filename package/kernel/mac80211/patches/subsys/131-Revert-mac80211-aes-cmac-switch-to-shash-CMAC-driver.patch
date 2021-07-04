@@ -11,7 +11,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
 
 --- a/net/mac80211/aes_cmac.c
 +++ b/net/mac80211/aes_cmac.c
-@@ -19,67 +19,151 @@
+@@ -20,73 +20,151 @@
  #define CMAC_TLEN_256 16 /* CMAC TLen = 128 bits (16 octets) */
  #define AAD_LEN 20
  
@@ -180,9 +180,16 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
 +	struct crypto_cipher *tfm;
  
 -	tfm = crypto_alloc_shash("cmac(aes)", 0, 0);
+-	if (!IS_ERR(tfm)) {
+-		int err = crypto_shash_setkey(tfm, key, key_len);
+-
+-		if (err) {
+-			crypto_free_shash(tfm);
+-			return ERR_PTR(err);
+-		}
+-	}
 +	tfm = crypto_alloc_cipher("aes", 0, CRYPTO_ALG_ASYNC);
- 	if (!IS_ERR(tfm))
--		crypto_shash_setkey(tfm, key, key_len);
++	if (!IS_ERR(tfm))
 +		crypto_cipher_setkey(tfm, key, key_len);
  
  	return tfm;
